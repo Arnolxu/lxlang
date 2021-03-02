@@ -22,11 +22,13 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		string lxl_version = "0.1";
-		string lxl_build = "2";
+		string lxl_version = "0.1.1";
+		string lxl_build = "4";
 		foreach(string line in source)
 		{
 			string[] words = line.Split(' ');
+			if(line.Substring(0, 1)=="#")
+				continue;
 			if(words[0]=="STRING")
 			{
 				if(!(words.Length >= 4))
@@ -45,7 +47,7 @@ class Program
 				} else {
 					strings.Add(words[1], words[3]);
 				}
-			}
+			}else
 			if(words[0]=="CHAR")
 			{
 				if(!(words.Length >= 4))
@@ -69,7 +71,7 @@ class Program
 					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCHAR değişkenleri sadece tek bir karaktere sahip olabilir, sayılar için INT, yazılar için ise STRING kullanmalısın.");
 					System.Environment.Exit(0);
 				}
-			}
+			}else
 			if(words[0]=="INT")
 			{
 				if(!(words.Length >= 4))
@@ -93,7 +95,7 @@ class Program
 					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nINT değişkenleri sadece sayı olabilir, karakterler için CHAR, yazılar için ise STRING kullanmalısın.");
 					System.Environment.Exit(0);
 				}
-			}
+			}else
 			if(words[0]=="PRINT")
 			{
 				for(int i = 1; i < words.Length; i++)
@@ -104,7 +106,7 @@ class Program
 						Console.Write(" ");
 					}
 				}
-			}
+			}else
 			if(words[0]=="PRINTVAR")
 			{
 				if(words[1]=="S")
@@ -119,7 +121,7 @@ class Program
 				} else {
 					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nPRINTVAR komutu değişkenleri yazmak içindir, ve yazarken değişken türünü de belirtmelisin. Şunun gibi;\n PRINTVAR S string\n");
 				}
-			}
+			}else
 			if(words[0]=="READ")
 			{
 				if(!(words.Length == 2))
@@ -128,15 +130,15 @@ class Program
 					System.Environment.Exit(0);
 				}
 				strings.Add(words[1], Console.ReadLine());
-			}
+			}else
 			if(words[0]=="NEWLINE")
 			{
 				Console.Write("\n");
-			}
+			}else
 			if(words[0]=="INFO")
 			{
 				Console.WriteLine("LXL INFO\nSürüm: " + lxl_version + "\nDerleme Numarası: " + lxl_build);
-			}
+			}else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
 			/*
 			Taslak: 
 			
