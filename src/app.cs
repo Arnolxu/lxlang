@@ -22,8 +22,8 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		string lxl_version = "0.1.1";
-		string lxl_build = "4";
+		string lxl_version = "0.1.2";
+		string lxl_build = "7";
 		foreach(string line in source)
 		{
 			string[] words = line.Split(' ');
@@ -126,10 +126,17 @@ class Program
 			{
 				if(!(words.Length == 2))
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nOkunan veriyi sadece bir değişkene atayabilirsin, tabii bunu daha sonra diğerlerine de dağıtabilirsin. Ve bunu da şu şekilde yapmalısın:\n\nREAD a\n\nBu arada, \"a\", bizim değişkenimiz oluyor.");
-					System.Environment.Exit(0);
+					if(!(words.Length == 3))
+					{
+						Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nOkunan veriyi sadece bir değişkene atayabilirsin, tabii bunu daha sonra diğerlerine de dağıtabilirsin. Ve bunu da şu şekilde yapmalısın:\n\nREAD a\n\nBu arada, \"a\", bizim değişkenimiz oluyor.\nAyrıca, girdinin yeşil olmasını istemiyorsan, -NCLR parametresini de kullanmalısın.");
+						System.Environment.Exit(0);
+					}
 				}
+				if(!(words.Length == 3 && words[2]=="-NCLR"))
+					Console.ForegroundColor = ConsoleColor.DarkGreen;
 				strings.Add(words[1], Console.ReadLine());
+				if(!(words.Length == 3 && words[2]=="-NCLR"))
+					Console.ForegroundColor = ConsoleColor.White;
 			}else
 			if(words[0]=="NEWLINE")
 			{
@@ -138,7 +145,8 @@ class Program
 			if(words[0]=="INFO")
 			{
 				Console.WriteLine("LXL INFO\nSürüm: " + lxl_version + "\nDerleme Numarası: " + lxl_build);
-			}else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
+			}
+			else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
 			/*
 			Taslak: 
 			
@@ -148,5 +156,9 @@ class Program
 			*/
 			nline++;
 		}
+	}
+	void LXL_ForeColor(string color)
+	{
+	
 	}
 }
