@@ -1,9 +1,9 @@
 PRINT Mesleğiniz nedir?
 NEWLINE
-READ meslek -NCLR
+READ meslek
 PRINT Adınız nedir?
 NEWLINE
-READ isim -NCLR
+READ isim
 NEWLINE
 PRINT ┌────────────────────────────
 NEWLINE
