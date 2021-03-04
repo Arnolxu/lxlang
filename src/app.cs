@@ -6,6 +6,7 @@ class Program
 {
 	public static void Main()
 	{
+		Console.Clear();
 		Console.WriteLine("LXL yorumlayıcı");
 		Console.Write("Lütfen bir .lxl dosyası girin: ");
 		string path = Console.ReadLine();
@@ -22,8 +23,8 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		string lxl_version = "0.1.2";
-		string lxl_build = "7";
+		string lxl_version = "0.1.3";
+		string lxl_build = "1";
 		foreach(string line in source)
 		{
 			string[] words = line.Split(' ');
@@ -145,20 +146,35 @@ class Program
 			if(words[0]=="INFO")
 			{
 				Console.WriteLine("LXL INFO\nSürüm: " + lxl_version + "\nDerleme Numarası: " + lxl_build);
+			}else
+			if(words[0]=="CURSOR")
+			{
+				int c1;
+				int c2;
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCURSOR komutunu kullanırken, 2 parametreye ihtiyacın var. İmlecin yerleştirileceği Y ve X pozisyonları.\n\nCURSOR 0 0\ngibi.");
+					System.Environment.Exit(0);
+				}
+				Int32.TryParse(words[1], out c1);
+				Int32.TryParse(words[2], out c2);
+				Console.SetCursorPosition(c1, c2 + 2);
 			}
 			else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
 			/*
 			Taslak: 
 			
+else
 			if(words[0]=="")
 			{
+				if(words.Length!=2)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
 			}
 			*/
 			nline++;
 		}
-	}
-	void LXL_ForeColor(string color)
-	{
-	
 	}
 }
