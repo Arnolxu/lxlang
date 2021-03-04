@@ -1,0 +1,28 @@
+PRINT ┌────────────────────────────
+NEWLINE
+PRINT │
+NEWLINE
+PRINT │ Meslek:
+NEWLINE
+PRINT │
+NEWLINE
+PRINT │ İsim: 
+NEWLINE
+PRINT │
+NEWLINE
+PRINT └────────────────────────────
+CURSOR 9 2
+READ meslek
+CURSOR 7 4
+READ isim
+CURSOR 0 7
+
+# Çıktı:
+# 
+# ┌────────────────────────────
+# │
+# │ Meslek: Öğrenci
+# │
+# │ İsim: Çınar
+# │
+# └────────────────────────────
