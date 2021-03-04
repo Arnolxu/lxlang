@@ -1,0 +1,37 @@
+PRINT Mesleğiniz nedir?
+NEWLINE
+READ meslek -NCLR
+PRINT Adınız nedir?
+NEWLINE
+READ isim -NCLR
+NEWLINE
+PRINT ┌────────────────────────────
+NEWLINE
+PRINT │
+NEWLINE
+PRINT │ Meslek: 
+PRINTVAR S meslek
+NEWLINE
+PRINT │
+NEWLINE
+PRINT │ İsim: 
+PRINTVAR S isim
+NEWLINE
+PRINT │
+NEWLINE
+PRINT └────────────────────────────
+NEWLINE
+
+# Çıktı:
+# Mesleğiniz nedir?
+# Öğrenci
+# Adınız nedir?
+# Çınar
+# 
+# ┌────────────────────────────
+# │
+# │ Meslek: Öğrenci
+# │
+# │ İsim: Çınar
+# │
+# └────────────────────────────
