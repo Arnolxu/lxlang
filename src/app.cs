@@ -1,15 +1,33 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 class Program
 {
-	public static void Main()
+	public static void Main(string[] args)
 	{
 		Console.Clear();
 		Console.WriteLine("LXL yorumlayıcı");
-		Console.Write("Lütfen bir .lxl dosyası girin: ");
-		string path = Console.ReadLine();
+		string path;
+		int atlama;
+		if(args.Length>=2)
+		{
+			Console.WriteLine("Lütfen birden fazla argüman girmeyin.");
+			System.Environment.Exit(0);
+		}
+		if(args.Length!=1)
+		{
+			Console.Write("Lütfen bir .lxl dosyası girin: ");
+			path = Console.ReadLine();
+			atlama = 2;
+		}
+		else
+		{
+			path = args[0];
+			atlama = 1;
+		}
 		if(!File.Exists(@path)){
 			Console.WriteLine("Geçersiz Yol.");
 			System.Environment.Exit(0);
@@ -23,7 +41,7 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		string lxl_version = "0.1.3";
+		string lxl_version = "0.1.4";
 		string lxl_build = "1";
 		foreach(string line in source)
 		{
@@ -158,7 +176,41 @@ class Program
 				}
 				Int32.TryParse(words[1], out c1);
 				Int32.TryParse(words[2], out c2);
-				Console.SetCursorPosition(c1, c2 + 2);
+				Console.SetCursorPosition(c1, c2 + atlama);
+			}else
+			if(words[0]=="COLOR")
+			{
+				string[] colors = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+				if(words.Length!=2)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCOLOR komutunda 1 adet parametre olmalı.");
+					System.Environment.Exit(0);
+				}
+				if(!colors.Contains(words[1]))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCOLOR komutunun parametresi 0-9 arasında bir rakam olmalı.");
+					System.Environment.Exit(0);
+				}
+				if(words[1]=="0")
+					Console.ForegroundColor = ConsoleColor.White;
+				if(words[1]=="1")
+					Console.ForegroundColor = ConsoleColor.Cyan;
+				if(words[1]=="2")
+					Console.ForegroundColor = ConsoleColor.Green;
+				if(words[1]=="3")
+					Console.ForegroundColor = ConsoleColor.DarkBlue;
+				if(words[1]=="4")
+					Console.ForegroundColor = ConsoleColor.Red;
+				if(words[1]=="5")
+					Console.ForegroundColor = ConsoleColor.Magenta;
+				if(words[1]=="6")
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+				if(words[1]=="7")
+					Console.ForegroundColor = ConsoleColor.Gray;
+				if(words[1]=="8")
+					Console.ForegroundColor = ConsoleColor.DarkYellow;
+				if(words[1]=="9")
+					Console.ForegroundColor = ConsoleColor.Yellow;
 			}
 			else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
 			/*
