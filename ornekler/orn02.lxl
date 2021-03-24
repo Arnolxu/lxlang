@@ -1,3 +1,9 @@
+#########################
+#                       #
+#      LXL Örnek 2      #
+#                       #
+#########################
+
 PRINT Mesleğiniz nedir?
 NEWLINE
 READ meslek -NCLR
