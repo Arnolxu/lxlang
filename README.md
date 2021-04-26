@@ -1,6 +1,6 @@
 # LXLang
-
-LX Language
+LX Language<br/>
+<img src="LXL.png" alt="LXL Logo" width="64"/>
 ## Gereksinimler
 Windows için: .NET Framework<br />
 Linux için: Mono
