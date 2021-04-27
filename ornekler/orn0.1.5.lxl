@@ -1,0 +1,35 @@
+#########################
+#                       #
+#      LXL Örnek 5      #
+#                       #
+#########################
+
+color 5
+write 3 ve 3 ile işlemler.
+nline
+color 3
+integer hm = 3
+write Mod: 
+mod hm 3
+writev hm
+nline
+integer hm = 3
+write Topla: 
+add hm 3
+writev hm
+nline
+integer hm = 3
+write Eksilt: 
+dec hm 3
+writev hm
+nline
+integer hm = 3
+write Çarp: 
+mlt hm 3
+writev hm
+nline
+integer hm = 3
+write Böl: 
+sep hm 3
+writev hm
+end
