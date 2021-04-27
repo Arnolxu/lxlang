@@ -8,8 +8,10 @@ class Program
 {
 	public static void Main(string[] args)
 	{
+		Program prg = new Program();
+		string lxl_version = "0.1.5";
 		Console.Clear();
-		Console.WriteLine("LXL yorumlayıcı");
+		Console.WriteLine("LXL yorumlayıcı " + lxl_version);
 		string path;
 		int atlama;
 		if(args.Length>=2)
@@ -41,14 +43,14 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		string lxl_version = "0.1.4";
-		string lxl_build = "1";
 		foreach(string line in source)
 		{
 			string[] words = line.Split(' ');
+			if(line==""||line==" ")
+				continue;
 			if(line.Substring(0, 1)=="#")
 				continue;
-			if(words[0]=="STRING")
+			if(words[0]=="string")
 			{
 				if(!(words.Length >= 4))
 				{
@@ -57,17 +59,17 @@ class Program
 				}
 				if(words[2]!="=")
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\nSTRING degisken = deger\nProsedür gereği ;)");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\nstring degisken = deger\nProsedür gereği ;)");
 					System.Environment.Exit(0);
 				}
-				if(words[3]=="NULL")
+				if(words[3]=="none")
 				{
-					strings.Remove(words[1]);
+					prg.addOrUpdate(strings, words[1], null);
 				} else {
-					strings.Add(words[1], words[3]);
+					prg.addOrUpdate(strings, words[1], words[3]);
 				}
 			}else
-			if(words[0]=="CHAR")
+			if(words[0]=="character")
 			{
 				if(!(words.Length >= 4))
 				{
@@ -76,14 +78,14 @@ class Program
 				}
 				if(words[2]!="=")
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\nCHAR degisken = deger\nProsedür gereği ;)");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\ncharacter degisken = deger\nProsedür gereği ;)");
 					System.Environment.Exit(0);
 				}
-				if(words[3]=="NULL")
+				if(words[3]=="none")
 				{
-					chars.Remove(words[1]);
+					prg.addOrUpdate(chars, words[1], null);
 				} else {
-					chars.Add(words[1], words[3]);
+					prg.addOrUpdate(chars, words[1], words[3]);
 				}
 				if(words[3].Length >= 2)
 				{
@@ -91,7 +93,7 @@ class Program
 					System.Environment.Exit(0);
 				}
 			}else
-			if(words[0]=="INT")
+			if(words[0]=="integer")
 			{
 				if(!(words.Length >= 4))
 				{
@@ -100,22 +102,22 @@ class Program
 				}
 				if(words[2]!="=")
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\nINT degisken = deger\nProsedür gereği ;)");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nEvet, ne yapacağımı biliyorum ama orasının şöyle bir şey olması gerek:\ninteger degisken = deger\nProsedür gereği ;)");
 					System.Environment.Exit(0);
 				}
-				if(words[3]=="NULL")
+				if(words[3]=="none")
 				{
-					ints.Remove(words[1]);
+					prg.addOrUpdate(ints, words[1], null);
 				} else {
-					ints.Add(words[1], words[3]);
+					prg.addOrUpdate(ints, words[1], words[3]);
 				}
 				if(!Int32.TryParse(words[3], out _))
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nINT değişkenleri sadece sayı olabilir, karakterler için CHAR, yazılar için ise STRING kullanmalısın.");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nInteger değişkenleri sadece sayı olabilir, karakterler için character, yazılar için ise string kullanmalısın.");
 					System.Environment.Exit(0);
 				}
 			}else
-			if(words[0]=="PRINT")
+			if(words[0]=="write")
 			{
 				for(int i = 1; i < words.Length; i++)
 				{
@@ -126,69 +128,65 @@ class Program
 					}
 				}
 			}else
-			if(words[0]=="PRINTVAR")
+			if(words[0]=="writev")
 			{
-				if(words[1]=="S")
+				if(strings.ContainsKey(words[1]))
 				{
-					Console.Write(strings[words[2]]);
-				} else if(words[1]=="C")
+					Console.Write(strings[words[1]]);
+				} else if(chars.ContainsKey(words[1]))
 				{
-					Console.Write(chars[words[2]]);
-				} else if(words[1]=="I")
+					Console.Write(chars[words[1]]);
+				} else if(ints.ContainsKey(words[1]))
 				{
-					Console.Write(ints[words[2]]);
+					Console.Write(ints[words[1]]);
 				} else {
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nPRINTVAR komutu değişkenleri yazmak içindir, ve yazarken değişken türünü de belirtmelisin. Şunun gibi;\n PRINTVAR S string\n");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nwritev değişkeni bulamadı.");
 				}
 			}else
-			if(words[0]=="READ")
+			if(words[0]=="input")
 			{
 				if(!(words.Length == 2))
 				{
 					if(!(words.Length == 3))
 					{
-						Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nOkunan veriyi sadece bir değişkene atayabilirsin, tabii bunu daha sonra diğerlerine de dağıtabilirsin. Ve bunu da şu şekilde yapmalısın:\n\nREAD a\n\nBu arada, \"a\", bizim değişkenimiz oluyor.\nAyrıca, girdinin yeşil olmasını istemiyorsan, -NCLR parametresini de kullanmalısın.");
+						Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nOkunan veriyi sadece bir değişkene atayabilirsin, tabii bunu daha sonra diğerlerine de dağıtabilirsin. Ve bunu da şu şekilde yapmalısın:\n\ninput a\n\nBu arada, \"a\", bizim değişkenimiz oluyor.\nAyrıca, girdinin yeşil olmasını istemiyorsan, --no-color parametresini de kullanmalısın.");
 						System.Environment.Exit(0);
 					}
 				}
-				if(!(words.Length == 3 && words[2]=="-NCLR"))
+				if(!(words.Length == 3 && (words[2]=="--no-color")))
 					Console.ForegroundColor = ConsoleColor.DarkGreen;
 				strings.Add(words[1], Console.ReadLine());
-				if(!(words.Length == 3 && words[2]=="-NCLR"))
+				if(!(words.Length == 3 && (words[2]=="--no-color")))
 					Console.ForegroundColor = ConsoleColor.White;
 			}else
-			if(words[0]=="NEWLINE")
+			if(words[0]=="nline")
 			{
 				Console.Write("\n");
 			}else
-			if(words[0]=="INFO")
-			{
-				Console.WriteLine("LXL INFO\nSürüm: " + lxl_version + "\nDerleme Numarası: " + lxl_build);
-			}else
-			if(words[0]=="CURSOR")
+			if(words[0]=="cursor")
 			{
 				int c1;
 				int c2;
 				if(words.Length!=3)
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCURSOR komutunu kullanırken, 2 parametreye ihtiyacın var. İmlecin yerleştirileceği Y ve X pozisyonları.\n\nCURSOR 0 0\ngibi.");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCursor komutunu kullanırken, 2 parametreye ihtiyacın var. İmlecin yerleştirileceği Y ve X pozisyonları.\n\ncursor 0 0\ngibi.");
 					System.Environment.Exit(0);
 				}
 				Int32.TryParse(words[1], out c1);
 				Int32.TryParse(words[2], out c2);
 				Console.SetCursorPosition(c1, c2 + atlama);
 			}else
-			if(words[0]=="COLOR")
+			if(words[0]=="color")
 			{
 				string[] colors = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 				if(words.Length!=2)
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCOLOR komutunda 1 adet parametre olmalı.");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\ncolor komutunda 1 adet parametre olmalı.");
 					System.Environment.Exit(0);
 				}
 				if(!colors.Contains(words[1]))
 				{
-					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\nCOLOR komutunun parametresi 0-9 arasında bir rakam olmalı.");
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.\ncolor komutunun parametresi 0-9 arasında bir rakam olmalı.");
 					System.Environment.Exit(0);
 				}
 				if(words[1]=="0")
@@ -211,6 +209,107 @@ class Program
 					Console.ForegroundColor = ConsoleColor.DarkYellow;
 				if(words[1]=="9")
 					Console.ForegroundColor = ConsoleColor.Yellow;
+			}else
+			if(words[0]=="add")
+			{
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
+				if(!ints.ContainsKey(words[1]) || (!Int32.TryParse(words[2], out _) && !ints.ContainsKey(words[2])))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Birinden biri sayı değil.");
+					System.Environment.Exit(0);
+				}
+				int a;
+				int b;
+				Int32.TryParse(ints[words[1]], out a);
+				if(!Int32.TryParse(words[2], out b))
+					Int32.TryParse(ints[words[2]], out b);
+				ints[words[1]] = (a + b).ToString();
+			}else
+			if(words[0]=="dec")
+			{
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
+				if(!ints.ContainsKey(words[1]) || (!Int32.TryParse(words[2], out _) && !ints.ContainsKey(words[2])))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Birinden biri sayı değil.");
+					System.Environment.Exit(0);
+				}
+				int a;
+				int b;
+				Int32.TryParse(ints[words[1]], out a);
+				if(!Int32.TryParse(words[2], out b))
+					Int32.TryParse(ints[words[2]], out b);
+				ints[words[1]] = (a - b).ToString();
+			}else
+			if(words[0]=="sep")
+			{
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
+				if(!ints.ContainsKey(words[1]) || (!Int32.TryParse(words[2], out _) && !ints.ContainsKey(words[2])))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Birinden biri sayı değil.");
+					System.Environment.Exit(0);
+				}
+				int a;
+				int b;
+				Int32.TryParse(ints[words[1]], out a);
+				if(!Int32.TryParse(words[2], out b))
+					Int32.TryParse(ints[words[2]], out b);
+				ints[words[1]] = (a / b).ToString();
+			}else
+			if(words[0]=="mlt")
+			{
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
+				if(!ints.ContainsKey(words[1]) || (!Int32.TryParse(words[2], out _) && !ints.ContainsKey(words[2])))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Birinden biri sayı değil.");
+					System.Environment.Exit(0);
+				}
+				int a;
+				int b;
+				Int32.TryParse(ints[words[1]], out a);
+				if(!Int32.TryParse(words[2], out b))
+					Int32.TryParse(ints[words[2]], out b);
+				ints[words[1]] = (a * b).ToString();
+			}else
+			if(words[0]=="mod")
+			{
+				if(words.Length!=3)
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip.");
+					System.Environment.Exit(0);
+				}
+				if(!ints.ContainsKey(words[1]) || (!Int32.TryParse(words[2], out _) && !ints.ContainsKey(words[2])))
+				{
+					Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Birinden biri sayı değil.");
+					System.Environment.Exit(0);
+				}
+				int a;
+				int b;
+				Int32.TryParse(ints[words[1]], out a);
+				if(!Int32.TryParse(words[2], out b))
+					Int32.TryParse(ints[words[2]], out b);
+				ints[words[1]] = (a % b).ToString();
+			}else
+			if(words[0]=="end")
+			{
+				Console.Write("\n");
+				Console.ForegroundColor = ConsoleColor.White;
+				Environment.Exit(0);
 			}
 			else{Console.WriteLine("Satır " + nline + " bazı sorunlara sahip. Komut bulunamadı."); System.Environment.Exit(0);}
 			/*
@@ -228,5 +327,19 @@ else
 			*/
 			nline++;
 		}
+	}
+	private void addOrUpdate(Dictionary<string, string> dic, string key, string newValue)
+	{
+    	string val;
+    	if (dic.TryGetValue(key, out val))
+    	{
+        	// değer var.
+        	dic[key] = newValue;
+    	}
+    	else
+    	{
+        	// ah, değer yok.
+        	dic.Add(key, newValue);
+    	}
 	}
 }
