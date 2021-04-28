@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 class Program
 {
@@ -43,12 +44,13 @@ class Program
 		Dictionary<string, string> strings = new Dictionary<string, string>();
 		Dictionary<string, string> chars = new Dictionary<string, string>();
 		Dictionary<string, string> ints = new Dictionary<string, string>();
-		foreach(string line in source)
+		foreach(string lin in source)
 		{
+			MatchEvaluator evaluator = new MatchEvaluator(blank);
+			string line = Regex.Replace(lin, "#(?=([^\"]*\"[^\"]*\")*[^\"]*$).*", evaluator);
+			line = Regex.Replace(line, "^[ \t]+", evaluator);
 			string[] words = line.Split(' ');
 			if(line==""||line==" ")
-				continue;
-			if(line.Substring(0, 1)=="#")
 				continue;
 			if(words[0]=="string")
 			{
@@ -341,5 +343,8 @@ else
         	// ah, değer yok.
         	dic.Add(key, newValue);
     	}
+	}
+	public static string blank(Match match){
+		return "";
 	}
 }
