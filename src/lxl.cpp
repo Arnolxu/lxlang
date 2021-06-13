@@ -26,7 +26,7 @@ bool isNum(string str){
 
 int main(int argc, char** argv) {
     string lxlfile;
-    string lxl_version = "0.2.2";
+    string lxl_version = "0.2.3";
     clear();
     cout << "LXL interpreter " << lxl_version << "\n";
     int jump;
@@ -87,12 +87,12 @@ int main(int argc, char** argv) {
         if(words[0]=="string"){
             if(!(words.size() >= 4))
             {
-                cout << "Line " << nline << " has some problems.";
+                cout << "Line " << nline << " has some problems.\n";
                 return 0;
             }
             if(words[2]!="=")
             {
-                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\nstring var = val";
+                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\nstring var = val\n";
                 return 0;
             }
             int i;
@@ -110,12 +110,12 @@ int main(int argc, char** argv) {
         if(words[0]=="character"){
             if(!(words.size() >= 4))
             {
-                cout << "Line " << nline << " has some problems.";
+                cout << "Line " << nline << " has some problems.\n";
                 return 0;
             }
             if(words[2]!="=")
             {
-                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\nstring var = val";
+                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\ncharacter var = v\n";
                 return 0;
             }
             int i;
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
             if(str=="none")
                 characters.erase(words[1]);
             else if(str.size()>=2){
-                cout << "Line " << nline << " has some problems.\nCharacter variables can only be one character, you should use integer for numbers, string for strings.";
+                cout << "Line " << nline << " has some problems.\nCharacter variables can only be one character, you should use integer for numbers, string for strings.\n";
             }
             else
                 characters[words[1]] = str;
@@ -134,12 +134,12 @@ int main(int argc, char** argv) {
         if(words[0]=="integer"){
             if(!(words.size() >= 4))
             {
-                cout << "Line " << nline << " has some problems.";
+                cout << "Line " << nline << " has some problems.\n";
                 return 0;
             }
             if(words[2]!="=")
             {
-                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\nstring var = val";
+                cout << "Line " << nline << " has some problems.\nYes, I know what to do but it should be like this:\ninteger var = 1";
                 return 0;
             }
             int i;
@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
             if(str=="none")
                 integers.erase(words[1]);
             else if(isNum(str)){
-                cout << "Line " << nline << " has some problems.\nInteger variables can only be numbers, you should use character for characters, string for strings.";
+                cout << "Line " << nline << " has some problems.\nInteger variables can only be numbers, you should use character for characters, string for strings.\n";
             }
             else
                 integers[words[1]] = str;
@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
             {
                 cout << integers[words[1]];
             } else {
-                cout << "Satır " << nline << " bazı sorunlara sahip.\nwritev değişkeni bulamadı.";
+                cout << "Line " << nline << " has some problems.\nwritev couldn't find variable.\n";
             }
         } else
         if(words[0]=="nline"){
@@ -197,13 +197,43 @@ int main(int argc, char** argv) {
             int c1 = stoi(words[2]) + jump;
             int c2 = stoi(words[1]) + jump;
             cout << "\033["<< c1 << ";" << c2 << "f";
+        } else
+        if(words[0]=="color"){
+            map<string, string> colors;
+            colors.insert(pair<string, string>("0", "37"));
+            colors.insert(pair<string, string>("1", "36"));
+            colors.insert(pair<string, string>("2", "32"));
+            colors.insert(pair<string, string>("3", "34"));
+            colors.insert(pair<string, string>("4", "91"));
+            colors.insert(pair<string, string>("5", "35"));
+            colors.insert(pair<string, string>("6", "31"));
+            colors.insert(pair<string, string>("7", "90"));
+            colors.insert(pair<string, string>("8", "33"));
+            colors.insert(pair<string, string>("9", "93"));
+            colors.insert(pair<string, string>("a", "97"));
+            colors.insert(pair<string, string>("b", "94"));
+            colors.insert(pair<string, string>("c", "95"));
+            colors.insert(pair<string, string>("d", "96"));
+            colors.insert(pair<string, string>("e", "97"));
+            colors.insert(pair<string, string>("f", "30"));
+            if(words.size() != 2)
+            {
+                cout << "Line " << nline << " has some problems. Color command needs 1 parameter.\n";
+                return 0;
+            }
+            if(colors.count(words[1])==0)
+            {
+                cout << "Line " << nline << " has some problems. The parameter of color command should be a hex number between 0-f.\n";
+                return 0;
+            }
+            cout << "\u001b[" << colors[words[1]] << "m";
         }
 
         /*
         Draft:
  else
         if(words[0]==""){
-            if(!(words.size() >= 2))
+            if(words.size() != 2)
             {
                 cout << "Line " << nline << " has some problems.";
                 return 0;

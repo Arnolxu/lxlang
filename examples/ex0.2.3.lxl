@@ -1,0 +1,40 @@
+#########################
+#                       #
+#    LXLPP Example 4    #
+#    LXL Example 2.3    #
+#                       #
+#########################
+
+color 0
+write 0
+color 1
+write 1
+color 2
+write 2
+color 3
+write 3
+color 4
+write 4
+color 5
+write 5
+color 6
+write 6
+color 7
+write 7
+color 8
+write 8
+color 9
+write 9
+color a
+write a
+color b
+write b
+color c
+write c
+color d
+write d
+color e
+write e
+color f
+write f
+color 0
