@@ -1,0 +1,44 @@
+#########################
+#                       #
+#    LXLPP Example 2    #
+#    LXL Example 2.1    #
+#                       #
+#########################
+
+write What is your job?
+nline
+input job -nc
+write What is your name?
+nline
+input name -nc
+nline
+write ┌────────────────────────────
+nline
+write │
+nline
+write │ Job: 
+writev job
+nline
+write │
+nline
+write │ Name: 
+writev name
+nline
+write │
+nline
+write └────────────────────────────
+nline
+
+# Output:
+# What is your job?
+# Student
+# What is your name?
+# Çınar
+# 
+# ┌────────────────────────────
+# │
+# │ Job: Student
+# │
+# │ Name: Çınar
+# │
+# └────────────────────────────

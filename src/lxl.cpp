@@ -26,7 +26,7 @@ bool isNum(string str){
 
 int main(int argc, char** argv) {
     string lxlfile;
-    string lxl_version = "0.2";
+    string lxl_version = "0.2.1";
     clear();
     cout << "LXL interpreter " << lxl_version << "\n";
     int atlama;
@@ -173,12 +173,16 @@ int main(int argc, char** argv) {
             cout << "\n";
         } else
         if(words[0]=="input"){
-            if(!(words.size() >= 2))
+            if(!(words.size() == 2 || words.size() == 3))
             {
                 cout << "Line " << nline << " has some problems.";
                 return 0;
             }
+            if(!(words.size() == 3 && words[2]=="-nc"))
+                cout << "\u001b[32m";
             cin >> strings[words[1]];
+            if(!(words.size() == 3 && words[2]=="-nc"))
+                cout << "\u001b[0m";
         }
 
         /*
