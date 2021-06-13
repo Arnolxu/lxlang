@@ -26,7 +26,7 @@ bool isNum(string str){
 
 int main(int argc, char** argv) {
     string lxlfile;
-    string lxl_version = "0.1.6";
+    string lxl_version = "0.2";
     clear();
     cout << "LXL interpreter " << lxl_version << "\n";
     int atlama;
