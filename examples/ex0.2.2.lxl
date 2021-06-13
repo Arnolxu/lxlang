@@ -1,0 +1,35 @@
+#########################
+#                       #
+#    LXLPP Example 3    #
+#    LXL Example 2.2    #
+#                       #
+#########################
+
+write ┌────────────────────────────
+nline
+write │
+nline
+write │ Job:
+nline
+write │
+nline
+write │ Name: 
+nline
+write │
+nline
+write └────────────────────────────
+cursor 6 2
+input job
+cursor 7 4
+input name
+cursor 0 7
+
+# Output:
+# 
+# ┌────────────────────────────
+# │
+# │ Job: Student
+# │
+# │ Name: Çınar
+# │
+# └────────────────────────────

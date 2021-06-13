@@ -26,10 +26,10 @@ bool isNum(string str){
 
 int main(int argc, char** argv) {
     string lxlfile;
-    string lxl_version = "0.2.1";
+    string lxl_version = "0.2.2";
     clear();
     cout << "LXL interpreter " << lxl_version << "\n";
-    int atlama;
+    int jump;
     if(argc>=3){
         cout << "Please do not enter more than one argument. (" << argc << ")";
         return 0;
@@ -37,12 +37,12 @@ int main(int argc, char** argv) {
     if(argc!=2){
         cout << "Please enter a file: ";
         cin >> lxlfile;
-        atlama = 2;
+        jump = 3;
     }
     else
     {
         lxlfile = argv[1];
-        atlama = 1;
+        jump = 2;
     }
     filesystem::path path = lxlfile;
     if(!exists(lxlfile))
@@ -183,6 +183,20 @@ int main(int argc, char** argv) {
             cin >> strings[words[1]];
             if(!(words.size() == 3 && words[2]=="-nc"))
                 cout << "\u001b[0m";
+        } else
+        if(words[0]=="cursor"){
+            if(words.size() != 3)
+            {
+                cout << "Line " << nline << " has some problems.\nWhile using cursor command, you need 2 parameters. Y and X positions.\nLike this:\nCURSOR 0 0\n";
+                return 0;
+            }
+            if(!(isNum(words[1]) && isNum(words[2]))){
+                cout << "Line " << nline << " has some problems.\nY and X positions in cursor command should be integers.\n";
+                return 0;
+            }
+            int c1 = stoi(words[2]) + jump;
+            int c2 = stoi(words[1]) + jump;
+            cout << "\033["<< c1 << ";" << c2 << "f";
         }
 
         /*
