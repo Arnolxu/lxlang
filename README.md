@@ -6,6 +6,7 @@ LX Language<br/>
 You need:
 * gcc
 * make
+* 
 Packages.<br/>
 Use `cd src && make build` to build LXL.
 
